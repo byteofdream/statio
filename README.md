@@ -43,6 +43,26 @@ GUI:
 ./build/statio-qt
 ```
 
+Python companion:
+
+```bash
+python3 tools/statio_py.py
+python3 tools/statio_py.py --json --pretty
+python3 tools/statio_py.py --watch 2
+```
+
+Disable plugins:
+
+```bash
+python3 tools/statio_py.py --no-plugins
+```
+
+Use a custom plugins folder:
+
+```bash
+python3 tools/statio_py.py --plugins-dir /path/to/plugins
+```
+
 ## Qt GUI
 
 Current `statio-qt` interface includes:
@@ -62,6 +82,24 @@ Current `statio-qt` interface includes:
 - `src/main.cpp` - CLI entry point
 - `include/statio/main_window.hpp` + `src/main_window.cpp` - Qt GUI
 - `src/main_qt.cpp` - GUI entry point
+- `tools/statio_py.py` - Python snapshot/watch utility (no third-party dependencies)
+- `tools/plugins/*.py` - optional Python plugins for extra collectors
+
+## Python Plugins
+
+`tools/statio_py.py` auto-loads plugins from `tools/plugins` by default.
+
+Plugin contract:
+
+- A plugin is a `.py` file.
+- Optional: `PLUGIN_NAME = \"my_plugin\"`
+- Required: `def collect(snapshot: dict) -> object`
+- `snapshot` is the already-collected base Statio data.
+- Return any JSON-serializable object (dict/list/number/string/bool).
+
+Example plugin is included:
+
+- `tools/plugins/uptime_plugin.py`
 
 ## Roadmap
 
